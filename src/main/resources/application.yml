@@ -1,0 +1,59 @@
+
+server:
+  port: 8095
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: soil
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+enableCache: true
+
+redison-cache:
+  url: redis://127.0.0.1:6379
+
+#cache-ttls:
+#  booking: 30
+
+cache:
+  ttl: 50
+
+redis-config:
+  setmax-size: 50
+  eviction-type: LRU
+
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+#  pattern:
+#    level: "[%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"
+
+
+redis:
+  ssl: true
+  host: redis-telikos-poc.redis.cache.windows.net
+  port: 6380
+  password: Vo3jLiRNk5RQgjuPas1S11CJfITx34SfFAzCaIdsdJ8=
+
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 3
+  retryInterval: 1500
+  password: null
+  subscriptionsPerConnection: 5
+  clientName: null
+  address: "redis://127.0.0.1:6379"
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 50
+  connectionMinimumIdleSize: 10
+  connectionPoolSize: 64
+  database: 0
+  dnsMonitoringInterval: 5000
+threads: 0
+nettyThreads: 0
