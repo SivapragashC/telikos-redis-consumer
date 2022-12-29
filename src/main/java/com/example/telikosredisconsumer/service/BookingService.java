@@ -19,38 +19,28 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
-    public Mono<Booking> getBooking(String bookingId)
-    {
-        Mono<Booking> booking = null;
-
-        try {
-            booking=  cacheService.get(bookingId)
-                    .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b->{
-                        cacheService.put(b.getBookingId() , b).subscribe(e->{
-                        });
-                        log.info("Getting the key {} from DB",bookingId);
-                    }));
-        }catch (Exception e) {
-            log.error("Exception occurred while fetching data from cache {}", e.getMessage());
-            throw new CacheException(e.getMessage());
-        }
-        return booking;
+    public Mono<Booking> getBooking(String bookingId) {
+        return cacheService.get(bookingId)
+                .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
+                    cacheService.put(b.getBookingId(), b).subscribe(e -> {
+                    });
+                    log.info("Getting the key {} from DB", bookingId);
+                })).doOnError(e -> {
+                    log.error("In booking service {}", e.getMessage());
+                    throw new CacheException(e.getMessage());
+                });
     }
 
     public Mono<Booking> getBookingTTL(String bookingId) {
-
-        try {
-
-            return cacheService.get(bookingId)
-                    .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
-                        cacheService.put(b.getBookingId(), b, 220).subscribe(e -> {
-                        });
-                        log.info("Getting the key {} from DB", bookingId);
-                    }));
-        }catch (Exception e) {
-            log.error("Exception occurred while fetching data from cache {}", e.getMessage());
-            throw new CacheException(e.getMessage());
-        }
+        return cacheService.get(bookingId)
+                .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
+                    cacheService.put(b.getBookingId(), b, 220).subscribe(e -> {
+                    });
+                    log.info("Getting the key {} from DB", bookingId);
+                })).doOnError(e -> {
+                    log.error("In booking service {}", e.getMessage());
+                    throw new CacheException(e.getMessage());
+                });
     }
 
 

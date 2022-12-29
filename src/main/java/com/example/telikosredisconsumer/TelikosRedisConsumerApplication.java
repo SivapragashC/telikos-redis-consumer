@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class TelikosRedisConsumerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TelikosRedisConsumerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TelikosRedisConsumerApplication.class, args);
+    }
 
 }
