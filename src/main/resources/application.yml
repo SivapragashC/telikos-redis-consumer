@@ -16,11 +16,9 @@ enableCache: true
 redison-cache:
   url: redis://127.0.0.1:6379
 
-#cache-ttls:
-#  booking: 30
-
 cache:
-  ttl: 50
+  ttl: 120
+  entry-ttl: 180
 
 redis-config:
   setmax-size: 50
@@ -36,7 +34,7 @@ logging:
 redis:
   ssl: true
   host: redis-telikos-poc.redis.cache.windows.net
-  port: 6380
+  port: 6379
   password: Vo3jLiRNk5RQgjuPas1S11CJfITx34SfFAzCaIdsdJ8=
 
 singleServerConfig:

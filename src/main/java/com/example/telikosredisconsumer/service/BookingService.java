@@ -2,9 +2,10 @@ package com.example.telikosredisconsumer.service;
 
 import com.example.telikosredisconsumer.entity.Booking;
 import com.example.telikosredisconsumer.repository.BookingRepository;
-import com.example.telikosredislibrary.CacheException;
+import com.example.telikosredislibrary.CacheImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -14,33 +15,30 @@ import reactor.core.publisher.Mono;
 public class BookingService {
 
     @Autowired
-    CacheService cacheService;
+    CacheImpl cacheImpl;
 
     @Autowired
     BookingRepository bookingRepository;
 
+    @Value("${cache.entry-ttl}")
+    private int entryTtl;
+
     public Mono<Booking> getBooking(String bookingId) {
-        return cacheService.get(bookingId)
+        return cacheImpl.get(bookingId)
                 .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
-                    cacheService.put(b.getBookingId(), b).subscribe(e -> {
+                    cacheImpl.put(b.getBookingId(), b).subscribe(e -> {
                     });
                     log.info("Getting the key {} from DB", bookingId);
-                })).doOnError(e -> {
-                    log.error("In booking service {}", e.getMessage());
-                    throw new CacheException(e.getMessage());
-                });
+                }));
     }
 
     public Mono<Booking> getBookingTTL(String bookingId) {
-        return cacheService.get(bookingId)
+        return cacheImpl.get(bookingId)
                 .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
-                    cacheService.put(b.getBookingId(), b, 220).subscribe(e -> {
+                    cacheImpl.put(b.getBookingId(), b, entryTtl).subscribe(e -> {
                     });
                     log.info("Getting the key {} from DB", bookingId);
-                })).doOnError(e -> {
-                    log.error("In booking service {}", e.getMessage());
-                    throw new CacheException(e.getMessage());
-                });
+                }));
     }
 
 
