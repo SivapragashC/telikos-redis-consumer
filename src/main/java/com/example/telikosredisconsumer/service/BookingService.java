@@ -3,15 +3,18 @@ package com.example.telikosredisconsumer.service;
 import com.example.telikosredisconsumer.entity.Booking;
 import com.example.telikosredisconsumer.repository.BookingRepository;
 import com.example.telikosredislibrary.service.CacheImpl;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 
 @Slf4j
 @Service
+@ConfigurationProperties("cache")
+@Setter
 public class BookingService {
 
     @Autowired
@@ -20,7 +23,6 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
-    @Value("${cache.entry-ttl}")
     private int entryTtl;
 
     public Mono<Booking> getBooking(String bookingId) {
