@@ -2,7 +2,7 @@ package com.example.telikosredisconsumer.service;
 
 import com.example.telikosredisconsumer.entity.Booking;
 import com.example.telikosredisconsumer.repository.BookingRepository;
-import com.example.telikosredislibrary.CacheImpl;
+import com.example.telikosredislibrary.service.CacheImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

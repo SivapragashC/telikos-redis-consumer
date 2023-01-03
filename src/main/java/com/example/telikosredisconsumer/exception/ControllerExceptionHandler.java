@@ -1,6 +1,6 @@
 package com.example.telikosredisconsumer.exception;
 
-import com.example.telikosredislibrary.CacheException;
+import com.example.telikosredislibrary.exception.CacheException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

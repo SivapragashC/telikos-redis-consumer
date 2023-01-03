@@ -1,6 +1,6 @@
 package com.example.telikosredisconsumer;
 
-import com.example.telikosredislibrary.EnableCustomCaching;
+import com.example.telikosredislibrary.annotation.EnableCustomCaching;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

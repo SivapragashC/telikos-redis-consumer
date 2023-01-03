@@ -2,7 +2,7 @@ package com.example.telikosredisconsumer.controller;
 
 import com.example.telikosredisconsumer.entity.Booking;
 import com.example.telikosredisconsumer.service.BookingService;
-import com.example.telikosredislibrary.CacheException;
+import com.example.telikosredislibrary.exception.CacheException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
