@@ -27,7 +27,7 @@ public class BookingService {
 
     public Mono<Booking> getBooking(String bookingId) {
         return cacheImpl.get(bookingId)
-                .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
+                .switchIfEmpty(getBookingById(bookingId).doOnNext(b -> {
                     cacheImpl.put(b.getBookingId(), b).subscribe(e -> {
                     });
                     log.info("Getting the key {} from DB", bookingId);
@@ -36,12 +36,14 @@ public class BookingService {
 
     public Mono<Booking> getBookingTTL(String bookingId) {
         return cacheImpl.get(bookingId)
-                .switchIfEmpty(bookingRepository.findById(bookingId).doOnNext(b -> {
+                .switchIfEmpty(getBookingById(bookingId).doOnNext(b -> {
                     cacheImpl.put(b.getBookingId(), b, entryTtl).subscribe(e -> {
                     });
                     log.info("Getting the key {} from DB", bookingId);
                 }));
     }
-
+    public Mono<Booking> getBookingById(String bookingId){
+        return bookingRepository.findById(bookingId);
+    }
 
 }

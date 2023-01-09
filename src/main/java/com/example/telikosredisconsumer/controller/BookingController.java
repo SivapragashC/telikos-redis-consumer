@@ -25,10 +25,12 @@ public class BookingController {
         return this.bookingService.getBooking(bookingId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
-                .doOnError(e ->
+                .onErrorResume(e ->
                 {
-                    log.error("In controller {}", e.getMessage());
-                    throw new CacheException(e.getMessage());
+                    log.error("In Booking controller getBooking{} ", e.getMessage());
+                    // throw new CacheException(e.getMessage());
+                    return e.getClass().getSimpleName().equals("CacheException") ?
+                            bookingService.getBookingById(bookingId).map(ResponseEntity::ok) : null;
                 });
     }
 
@@ -37,10 +39,12 @@ public class BookingController {
         return this.bookingService.getBookingTTL(bookingId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
-                .doOnError(e ->
+                .onErrorResume(e ->
                 {
-                    log.error("In controller {}", e.getMessage());
-                    throw new CacheException(e.getMessage());
+                    log.error("In Booking controller getBooking{} ", e.getMessage());
+                    // throw new CacheException(e.getMessage());
+                    return e.getClass().getSimpleName().equals("CacheException") ?
+                            bookingService.getBookingById(bookingId).map(ResponseEntity::ok) : null;
                 });
     }
 }
